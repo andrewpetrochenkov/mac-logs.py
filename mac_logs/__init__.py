@@ -16,7 +16,7 @@ def _size(path):
 
 
 def files(filenames=None, minsize=0):
-    """return list of files"""
+    """return a list of files"""
     if not minsize:
         minsize = 0
     if not os.path.exists(PATH):
@@ -28,7 +28,7 @@ def files(filenames=None, minsize=0):
 
 @public.add
 def logs(filenames=None, minsize=0):
-    """return list of `.log` files"""
+    """return a list of `.log` files"""
     return list(filter(lambda f: f[-4:] == ".log", files(filenames, minsize)))
 
 
@@ -42,7 +42,7 @@ def rm(filenames=None, minsize=0):
 
 @public.add
 def errors():
-    """return list of `*err*.log` files (`stderr.log`, `err.log`, `error.log`, ...)"""
+    """return a list of `*err*.log` files (`stderr.log`, `err.log`, `error.log`, ...)"""
     result = []
     for f in logs(minsize=1):
         if "err" in os.path.splitext(os.path.basename(f))[0]:
@@ -64,9 +64,3 @@ def tag():
     none = list(set(_trees(logs())) - set(red))
     mac_colors.red(red)
     mac_colors.none(none)
-
-
-@public.add
-def reveal():
-    """reveal `~/Library/Logs` in Finder"""
-    os.system("open -R %s" % PATH)
