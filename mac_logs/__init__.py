@@ -1,7 +1,7 @@
-#!/usr/bin/env python
-import os
+__all__ = ['errors', 'logs', 'rm', 'tag']
+
+
 import find
-import public
 import mac_colors
 
 """
@@ -26,13 +26,11 @@ def files(filenames=None, minsize=0):
             yield f
 
 
-@public.add
 def logs(filenames=None, minsize=0):
     """return a list of `.log` files"""
     return list(filter(lambda f: f[-4:] == ".log", files(filenames, minsize)))
 
 
-@public.add
 def rm(filenames=None, minsize=0):
     """remove `.log` files"""
     for f in logs(filenames, minsize):
@@ -40,7 +38,6 @@ def rm(filenames=None, minsize=0):
             os.unlink(f)
 
 
-@public.add
 def errors():
     """return a list of `*err*.log` files (`stderr.log`, `err.log`, `error.log`, ...)"""
     result = []
@@ -57,7 +54,6 @@ def _trees(paths):
             path = os.path.dirname(path)
 
 
-@public.add
 def tag():
     """set Finder tag. `red` - not empty error logs, `none` - other logs"""
     red = list(_trees(errors()))
